@@ -54,6 +54,11 @@
                 {
                   floor: 1, // total floor of the rack,
                   row: "AAA",
+                  size: "300x300",
+                  items: [
+                    "microwave",
+                    "fridge"
+                  ]
                 },
                 {
                   floor: 3, // total floor of the rack,
@@ -144,7 +149,8 @@
         extra,
         depthStart,
         depthEnd,
-        lane
+        lane,
+        items
       ) {
         for (let i = 1; i <= floor; i++) {
           var material = new THREE.LineBasicMaterial({
@@ -251,6 +257,7 @@
           cube.userData.extra = extra;
           cube.userData.actualFloor = i;
           cube.userData.lane = lane;
+          cube.userData.items = items;
           cells.push(cube);
           scene.add(cube);
           scene.add(line);
@@ -276,7 +283,9 @@
             colCode,
           };
 
-          drawRack(col[i].floor, size, i, extra, depthStart, depthEnd, lane);
+          console.log(col);
+
+          drawRack(col[i].floor, size, i, extra, depthStart, depthEnd, lane, col[i].items);
         }
       };
 
@@ -581,7 +590,7 @@
           );
           var material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
           cells[index].material = material;
-          let code = `CHR-${intersects[0].object.userData.extra.colCode}-${intersects[0].object.userData.extra.row}-${intersects[0].object.userData.actualFloor}`;
+          let code = `CHR-${intersects[0].object.userData.extra.colCode}-${intersects[0].object.userData.extra.row}-${intersects[0].object.userData.actualFloor}\n${intersects[0].object.userData.items[0]}`;
           selectedRack = code;
           text.innerHTML = `Rack : ${selectedRack}`;
         } else {
